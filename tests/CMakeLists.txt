@@ -21,5 +21,14 @@ target_link_libraries(task_manager_test
     GTest::gtest_main
 )
 
+add_executable(smart_engine_test
+    smart_engine_test.cpp
+)
+
+target_link_libraries(smart_engine_test
+    PRIVATE core GTest::gtest_main
+)
+
 include(GoogleTest)
 gtest_discover_tests(task_manager_test)
+gtest_discover_tests(smart_engine_test)
