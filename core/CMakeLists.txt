@@ -1,6 +1,6 @@
 add_library(core STATIC
-    src/task_manager.cpp
-    src/smart_engine.cpp
+    src/task/task_manager.cpp
+    src/smart/smart_engine.cpp
 )   
 
 target_include_directories(core PUBLIC include)

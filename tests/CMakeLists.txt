@@ -12,7 +12,7 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(task_manager_test
-    task_manager_test.cpp
+    task/task_manager_test.cpp
 )
 
 target_link_libraries(task_manager_test
@@ -22,7 +22,7 @@ target_link_libraries(task_manager_test
 )
 
 add_executable(smart_engine_test
-    smart_engine_test.cpp
+    smart/smart_engine_test.cpp
 )
 
 target_link_libraries(smart_engine_test
