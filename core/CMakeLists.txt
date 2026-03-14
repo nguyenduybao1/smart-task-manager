@@ -3,6 +3,7 @@ add_library(core STATIC
     src/smart/smart_engine.cpp
     src/concurrency/thread_pool.cpp
     src/concurrency/background_scheduler.cpp
+    src/concurrency/async_persistence.cpp
 )   
 
 target_include_directories(core PUBLIC include)

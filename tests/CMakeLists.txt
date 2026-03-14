@@ -45,8 +45,17 @@ target_link_libraries(background_scheduler_test
     PRIVATE core GTest::gtest_main
 )
 
+add_executable(async_persistence_test
+    concurrency/async_persistence_test.cpp
+)
+
+target_link_libraries(async_persistence_test
+    PRIVATE core GTest::gtest_main
+)
+
 include(GoogleTest)
 gtest_discover_tests(task_manager_test)
 gtest_discover_tests(smart_engine_test)
 gtest_discover_tests(thread_pool_test)
 gtest_discover_tests(background_scheduler_test)
+gtest_discover_tests(async_persistence_test)
