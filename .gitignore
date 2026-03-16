@@ -2,6 +2,9 @@ build/
 CMakeCache.txt
 CMakeFiles/
 compile_commands.json
+server/.env
+server/node_modules/
+server/dist/
 *.o
 *.out
 *.exe
