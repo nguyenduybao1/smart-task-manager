@@ -91,3 +91,31 @@ export async function deleteTask(userId: string, taskId: string) {
 
   await prisma.task.delete({ where: { id: taskId } });
 }
+
+export async function getAnalytics(userId: string) {
+  const tasks = await prisma.task.findMany({ where: { userId } });
+
+  const now        = new Date();
+  const total      = tasks.length;
+  const done       = tasks.filter(t => t.status === 'DONE').length;
+  const inProgress = tasks.filter(t => t.status === 'IN_PROGRESS').length;
+  const todo       = tasks.filter(t => t.status === 'TODO').length;
+  const overdue    = tasks.filter(t =>
+    t.status !== 'DONE' && t.deadline && t.deadline < now
+  ).length;
+
+  return {
+    total,
+    done,
+    inProgress,
+    todo,
+    overdue,
+    completionRate: total > 0 ? done / total : 0,
+    byPriority: {
+      critical: tasks.filter(t => t.priority === 'CRITICAL').length,
+      high:     tasks.filter(t => t.priority === 'HIGH').length,
+      medium:   tasks.filter(t => t.priority === 'MEDIUM').length,
+      low:      tasks.filter(t => t.priority === 'LOW').length,
+    },
+  };
+}

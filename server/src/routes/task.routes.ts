@@ -20,6 +20,7 @@ router.post(
 );
 
 router.get('/',    taskController.getAll);
+router.get('/analytics', taskController.getAnalytics);
 router.get('/:id', taskController.getById);
 
 router.patch(

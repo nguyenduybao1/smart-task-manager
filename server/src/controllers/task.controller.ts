@@ -57,3 +57,10 @@ export async function deleteTask(req: Request, res: Response, next: NextFunction
     return res.status(204).send();
   } catch (err) { next(err); }
 }
+
+export async function getAnalytics(req: Request, res: Response, next: NextFunction) {
+  try {
+    const analytics = await taskService.getAnalytics(req.userId);
+    return res.status(200).json({ success: true, data: analytics });
+  } catch (err) { next(err); }
+}
