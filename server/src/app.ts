@@ -8,6 +8,7 @@ import rateLimit from 'express-rate-limit';
 import { config } from '@/config/env';
 import { errorHandler } from '@/middleware/errorHandler';
 import authRoutes from '@/routes/auth.routes';
+import taskRoutes from '@/routes/task.routes';
 
 const app = express();
 
@@ -55,7 +56,8 @@ app.get('/health', (_req, res) => {
 // ─────────────────────────────────────────────
 // Routes
 // ─────────────────────────────────────────────
-app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/auth',  authLimiter, authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // 404 handler
 app.use((_req, res) => {
