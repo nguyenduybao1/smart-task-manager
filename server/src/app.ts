@@ -9,6 +9,7 @@ import { config } from '@/config/env';
 import { errorHandler } from '@/middleware/errorHandler';
 import authRoutes from '@/routes/auth.routes';
 import taskRoutes from '@/routes/task.routes';
+import syncRoutes from '@/routes/sync.routes';
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.get('/health', (_req, res) => {
 // ─────────────────────────────────────────────
 app.use('/api/auth',  authLimiter, authRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/sync', syncRoutes);
 
 // 404 handler
 app.use((_req, res) => {
