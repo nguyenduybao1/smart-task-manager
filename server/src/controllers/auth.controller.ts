@@ -2,13 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator';
 import * as authService from '@/services/auth.service';
 import { ValidationError } from '@/utils/errors';
+import { prisma } from '@/lib/prisma';
 
 const REFRESH_COOKIE = 'refreshToken';
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure:   process.env.NODE_ENV === 'production',
   sameSite: 'strict' as const,
-  maxAge:   7 * 24 * 60 * 60 * 1000, // 7 days
+  maxAge:   7 * 24 * 60 * 60 * 1000,
 };
 
 export async function register(req: Request, res: Response, next: NextFunction) {
@@ -20,12 +21,16 @@ export async function register(req: Request, res: Response, next: NextFunction) 
 
     const { email, password, name } = req.body;
     const tokens = await authService.register({ email, password, name });
+    const user   = await prisma.user.findUnique({ where: { email } });
 
     res.cookie(REFRESH_COOKIE, tokens.refreshToken, COOKIE_OPTIONS);
 
     return res.status(201).json({
       success: true,
-      data: { accessToken: tokens.accessToken },
+      data: {
+        accessToken: tokens.accessToken,
+        user: { id: user!.id, email: user!.email, name: user!.name },
+      },
     });
   } catch (err) {
     next(err);
@@ -41,12 +46,16 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
     const { email, password } = req.body;
     const tokens = await authService.login({ email, password });
+    const user   = await prisma.user.findUnique({ where: { email } });
 
     res.cookie(REFRESH_COOKIE, tokens.refreshToken, COOKIE_OPTIONS);
 
     return res.status(200).json({
       success: true,
-      data: { accessToken: tokens.accessToken },
+      data: {
+        accessToken: tokens.accessToken,
+        user: { id: user!.id, email: user!.email, name: user!.name },
+      },
     });
   } catch (err) {
     next(err);
